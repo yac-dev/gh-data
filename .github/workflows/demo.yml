@@ -38,5 +38,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Get artifact build
+        uses: actions/download-artifact@v3
+        with: # ここのactionのconfigでartifactをidentifyしないと、どれをdownloadすればいいかわからないからね。。。
+          name: dist-files #なるほど、これがartifactの名前で　identificationになるわけね。。。
+      - name: Output contents
+        # downloadした時点で、lsがどのfolderに対してか、その文脈ができるらしい。
+        run: ls
       - name: Deploy
         run: echo "Deploying..."
