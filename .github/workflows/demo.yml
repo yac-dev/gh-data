@@ -3,9 +3,12 @@ on:
   push:
     branches:
       - main
+
+# そうそう、ここのjobsはone after anotherにするためにneedsをつけているんだね。
 jobs:
   test:
     runs-on: ubuntu-latest
+    # stepsでやっているのが、、、そうget codeとかをなんていうかというと、actionを使っている。
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -25,6 +28,12 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
